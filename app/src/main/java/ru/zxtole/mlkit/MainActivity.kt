@@ -133,7 +133,7 @@ class MainActivity : ComponentActivity() {
         bitmapState = mutableStateOf(croppedBitmap)
         //set cropped bitmap
         setContent {
-            BitmapImage(bitmap = croppedBitmap)
+            BitmapImage(bitmap = bitmapState.value)
         }
     }
 
