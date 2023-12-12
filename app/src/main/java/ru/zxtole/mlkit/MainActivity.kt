@@ -40,14 +40,11 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Real-time contour detection
         val realTimeFdo = FaceDetectorOptions.Builder()
             .setContourMode(FaceDetectorOptions.CONTOUR_MODE_ALL)
             .setLandmarkMode(FaceDetectorOptions.LANDMARK_MODE_ALL)
             .build()
 
-
-        //init FaceDetector
         detector = FaceDetection.getClient(realTimeFdo)
         val faceBitmap = BitmapFactory.decodeResource(resources, R.drawable.maxresdefault)
 
@@ -72,7 +69,6 @@ class MainActivity : ComponentActivity() {
 
         Log.d(TAG, "analyzePhoto: ")
 
-        //Make image smaller to do processing faster
         val smallerBitmap = Bitmap.createScaledBitmap(
             faceBitmap,
             faceBitmap.width / SCALING_FACTOR,
@@ -80,12 +76,9 @@ class MainActivity : ComponentActivity() {
             false
         )
 
-        //Input Image for analyzing
         val inputImage = InputImage.fromBitmap(smallerBitmap, 0)
-        //start detecting
         detector.process(inputImage)
             .addOnSuccessListener { faces ->
-                //Task completed
                 Log.d(TAG, "analyzePhoto: Successfully detected face...")
                 Toast.makeText(this, "Face Detected...", Toast.LENGTH_SHORT).show()
 
@@ -121,7 +114,6 @@ class MainActivity : ComponentActivity() {
         val width = rect.width()
         val height = rect.height()
 
-        //cropped bitmap
         croppedBitmap = Bitmap.createBitmap(
             bitmap,
             x,
@@ -131,7 +123,6 @@ class MainActivity : ComponentActivity() {
         )
 
         bitmapState = mutableStateOf(croppedBitmap)
-        //set cropped bitmap
         setContent {
             BitmapImage(bitmap = bitmapState.value)
         }
